@@ -1,19 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class VoxelChunk : MonoBehaviour {
 
     public VoxelGenerator voxelGenerator;
+    public PlayerScript playerScript;
     int[,,] terrainArray;
-    int chunkSize = 32;
+    int chunkSize = 16;
+
+    public InputField inputField;
 
     public delegate void EventBlockChanged();
     public static event EventBlockChanged OnEventBlockDestroyed;
     public static event EventBlockChanged OnEventBlockPlaced;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         voxelGenerator = GetComponent<VoxelGenerator>();
         terrainArray = new int[chunkSize, chunkSize, chunkSize];
         voxelGenerator.Initialise();
@@ -76,13 +81,16 @@ public class VoxelChunk : MonoBehaviour {
                         switch (terrainArray[x, y, z])
                         {
                             case 1:
-                                tex = "Stone";
+                                tex = "Grass";
                                 break;
                             case 2:
                                 tex = "Dirt";
                                 break;
                             case 3:
                                 tex = "Sand";
+                                break;
+                            case 4:
+                                tex = "Stone";
                                 break;
                             default:
                                 tex = "Grass";
@@ -119,18 +127,34 @@ public class VoxelChunk : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update ()
+    public void LoadNamedFile(string fileToLoad)
     {
+        fileToLoad = inputField.text;
+        terrainArray = XMLVoxelFileReader.LoadChunkFromXMLFile(16, fileToLoad);
+        CreateTerrain();
+        voxelGenerator.UpdateMesh();
+        playerScript.EnableControls();
+    }
+
+    void Update ()
+    {
+       if (Input.GetKeyDown(KeyCode.E))
+       {
+           playerScript.DisableControls();
+       }
+
        if (Input.GetKeyDown(KeyCode.F1))
        {
-           XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk");
+            terrainArray = XMLVoxelFileReader.LoadChunkFromXMLFile(16, "AssessmentChunk1");
+            CreateTerrain();
+            voxelGenerator.UpdateMesh();
+            //XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk");
        }
 
        if (Input.GetKeyDown(KeyCode.F2))
        {
             //get terrain array form xml file
-            terrainArray = XMLVoxelFileWriter.LoadChunkFromXMLFile(32, "VoxelChunk");
+            terrainArray = XMLVoxelFileReader.LoadChunkFromXMLFile(16, "AssessmentChunk2");
             //draw correct faces
             CreateTerrain();
             //update mesh info
