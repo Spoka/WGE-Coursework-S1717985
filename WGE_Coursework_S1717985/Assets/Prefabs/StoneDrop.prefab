@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 135997683468991844}
   m_Layer: 0
   m_Name: StoneDrop
-  m_TagString: Untagged
+  m_TagString: DroppedBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

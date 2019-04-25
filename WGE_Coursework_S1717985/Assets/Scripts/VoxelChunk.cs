@@ -188,7 +188,14 @@ public class VoxelChunk : MonoBehaviour {
 
        if (Input.GetKeyDown(KeyCode.E))
        {
-           playerScript.DisableControls();
+           if (playerScript.controlsEnabled)
+           {
+               playerScript.DisableControls();
+           }
+           else if (!playerScript.controlsEnabled)
+           {
+               playerScript.EnableControls();
+           }
        }
 
        if (Input.GetKeyDown(KeyCode.F1))

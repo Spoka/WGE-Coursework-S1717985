@@ -8,11 +8,12 @@ public class PlayerScript : MonoBehaviour {
 
     public VoxelChunk voxelChunk;
     public DroppedBlockInstantiator instantiatePrefab;
-    bool controlsEnabled;
+    public bool controlsEnabled;
     public GameObject controlsDisabledText;
     public FirstPersonController fpsController;
     public Vector3 blockTypeToTransfer;
     public int bType;
+    public GameObject inventoryPanel;
 
     // Use this for initialization
     void Start ()
@@ -42,6 +43,25 @@ public class PlayerScript : MonoBehaviour {
                 voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
             }
         }
+        if (Input.GetKey(KeyCode.Q))
+        {
+            foreach (Collider collider in Physics.OverlapSphere(transform.position, 2.5f))
+            {
+                if (collider.tag == "DroppedBlock")
+                {
+                    Vector3 forceDirection = transform.position - collider.transform.position;
+                    Rigidbody rb = collider.gameObject.GetComponent<Rigidbody>();
+                    rb.AddForce(forceDirection.normalized * Time.deltaTime * 100);
+                }
+            }
+            foreach (Collider collider in Physics.OverlapSphere(transform.position, .5f))
+            {
+                if (collider.tag == "DroppedBlock")
+                {
+                    Destroy(collider.gameObject);
+                }
+            }
+        }
 	}
 
     public void EnableControls()
@@ -51,6 +71,7 @@ public class PlayerScript : MonoBehaviour {
         GameObject.Find("FPSController").GetComponent<FirstPersonController>().enabled = true;
         controlsDisabledText.SetActive(false);
         controlsEnabled = true;
+        inventoryPanel.SetActive(false);
     }
 
     public void DisableControls()
@@ -60,6 +81,7 @@ public class PlayerScript : MonoBehaviour {
         GameObject.Find("FPSController").GetComponent<FirstPersonController>().enabled = false;
         controlsDisabledText.SetActive(true);
         controlsEnabled = false;
+        inventoryPanel.SetActive(true);
     }
 
     bool PickThisBlock(out Vector3 v, float dist)
