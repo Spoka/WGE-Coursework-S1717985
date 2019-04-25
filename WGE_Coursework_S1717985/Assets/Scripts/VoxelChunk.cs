@@ -10,6 +10,8 @@ public class VoxelChunk : MonoBehaviour {
     int[,,] terrainArray;
     int chunkSize = 16;
 
+    public int blockToPlace;
+
     public InputField inputField;
 
     public delegate void EventBlockChanged();
@@ -25,6 +27,7 @@ public class VoxelChunk : MonoBehaviour {
         InitialiseTerrain();
         CreateTerrain();
         voxelGenerator.UpdateMesh();
+        blockToPlace = 1;
 	}
 
     public void SetBlock(Vector3 index, int blockType)
@@ -120,11 +123,36 @@ public class VoxelChunk : MonoBehaviour {
                         {
                             voxelGenerator.CreatePositiveZFace(x, y, z, tex);
                         }
-                        print("Create " + tex + " block,");
+                      //print("Create " + tex + " block,");
                     }
                 }
             }
         }
+    }
+
+    public int GetDestroyedBlockType()
+    {
+         return terrainArray[(int)playerScript.blockTypeToTransfer.x, (int)playerScript.blockTypeToTransfer.y, (int)playerScript.blockTypeToTransfer.z];
+    }
+
+    public void setBlockTypeToGrass()
+    {
+        blockToPlace = 1;
+    }
+
+    public void setBlockTypeToDirt()
+    {
+        blockToPlace = 2;
+    }
+
+    public void setBlockTypeToSand()
+    {
+        blockToPlace = 3;
+    }
+
+    public void setBlockTypeToStone()
+    {
+        blockToPlace = 4;
     }
 
     public void LoadNamedFile(string fileToLoad)
@@ -138,6 +166,26 @@ public class VoxelChunk : MonoBehaviour {
 
     void Update ()
     {
+       if (Input.GetKeyDown(KeyCode.Alpha1))
+       {
+           setBlockTypeToGrass();
+       }
+
+       if (Input.GetKeyDown(KeyCode.Alpha2))
+       {
+           setBlockTypeToDirt();
+       }
+
+       if (Input.GetKeyDown(KeyCode.Alpha3))
+       {
+           setBlockTypeToSand();
+       }
+
+       if (Input.GetKeyDown(KeyCode.Alpha4))
+       {
+           setBlockTypeToStone();
+       }
+
        if (Input.GetKeyDown(KeyCode.E))
        {
            playerScript.DisableControls();
@@ -148,7 +196,6 @@ public class VoxelChunk : MonoBehaviour {
             terrainArray = XMLVoxelFileReader.LoadChunkFromXMLFile(16, "AssessmentChunk1");
             CreateTerrain();
             voxelGenerator.UpdateMesh();
-            //XMLVoxelFileWriter.SaveChunkToXMLFile(terrainArray, "VoxelChunk");
        }
 
        if (Input.GetKeyDown(KeyCode.F2))

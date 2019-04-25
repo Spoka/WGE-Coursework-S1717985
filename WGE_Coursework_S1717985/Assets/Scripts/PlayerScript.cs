@@ -7,10 +7,12 @@ using UnityStandardAssets.Characters.FirstPerson;
 public class PlayerScript : MonoBehaviour {
 
     public VoxelChunk voxelChunk;
+    public DroppedBlockInstantiator instantiatePrefab;
     bool controlsEnabled;
     public GameObject controlsDisabledText;
     public FirstPersonController fpsController;
-
+    public Vector3 blockTypeToTransfer;
+    public int bType;
 
     // Use this for initialization
     void Start ()
@@ -26,7 +28,10 @@ public class PlayerScript : MonoBehaviour {
             Vector3 v;
             if (PickThisBlock(out v, 5))
             {
+                blockTypeToTransfer = v;
+                bType = voxelChunk.GetDestroyedBlockType();
                 voxelChunk.SetBlock(v, 0);
+                instantiatePrefab.IntantiateDroppedBlock();
             }
         }
         if(Input.GetButtonDown("Fire2") && controlsEnabled)
@@ -34,8 +39,7 @@ public class PlayerScript : MonoBehaviour {
             Vector3 v;
             if (PickEmptyBlock(out v, 5))
             {
-                Debug.Log(v);
-                voxelChunk.SetBlock(v, 1);
+                voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
             }
         }
 	}
@@ -63,7 +67,6 @@ public class PlayerScript : MonoBehaviour {
         v = new Vector3();
         Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
         RaycastHit hit;
-        
         if(Physics.Raycast (ray, out hit, dist))
         {
             v = hit.point - hit.normal / 2;
