@@ -71,10 +71,6 @@ public class PlayerScript : MonoBehaviour {
                     inventory.inventoryList[3].itemAmount = inventory.itemAmounts[3];
                     inventory.inventoryList[3].itemAmountText.text = inventory.itemAmounts[3].ToString();
                 }
-                for (int i = 0; i < inventory.itemAmounts.Count; i++)
-                {
-                    iItemScript.itemAmountText.text = inventory.itemAmounts[i].ToString();
-                }
             }
         }
         if (Input.GetKey(KeyCode.E))
