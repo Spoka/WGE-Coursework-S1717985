@@ -9,6 +9,9 @@ TagManager:
   - SandBlock
   - DirtBlock
   - StoneBlock
+  - Platform
+  - Platform1
+  - NPC
   layers:
   - Default
   - TransparentFX

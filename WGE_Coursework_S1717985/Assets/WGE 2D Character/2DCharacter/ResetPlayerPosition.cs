@@ -5,6 +5,7 @@ using UnityEngine;
 public class ResetPlayerPosition : MonoBehaviour {
 
     public Transform resetTransform;
+    public CameraMoveScript cameraScript;
 
     // Use this for initialization
     void Start () {
@@ -21,6 +22,7 @@ public class ResetPlayerPosition : MonoBehaviour {
         if(col.gameObject.tag == "Player")
         {
             col.gameObject.transform.position = resetTransform.position;
+            cameraScript.CameraFollowPlayerX();
         }
     }
 }
