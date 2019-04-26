@@ -38,7 +38,7 @@ public class PlayerController2D : MonoBehaviour {
         {
             _jumpReleaseInput();
         }
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButtonDown("Fire2"))
         {
             _dashPressedInput(new Vector2(hMove, vMove));
         }

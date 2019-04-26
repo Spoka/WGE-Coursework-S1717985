@@ -103,7 +103,7 @@ public class InventoryManager : MonoBehaviour {
     {
         List<InventoryItemScript> result = new List<InventoryItemScript>();  //creates a new list to store the arranged values 
 
-        while (left.Count > 0 || right.Count > 0)                   //while there are element to arrange
+        while (left.Count > 0 || right.Count > 0)                   //while there still are element to arrange
         {
             if (left.Count > 0 && right.Count > 0)                   
             {
