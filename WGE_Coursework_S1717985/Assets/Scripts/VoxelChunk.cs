@@ -186,7 +186,7 @@ public class VoxelChunk : MonoBehaviour {
            setBlockTypeToStone();
        }
 
-       if (Input.GetKeyDown(KeyCode.E))
+       if (Input.GetKeyDown(KeyCode.Q))
        {
            if (playerScript.controlsEnabled)
            {

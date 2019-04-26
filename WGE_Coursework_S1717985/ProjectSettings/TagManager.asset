@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - DroppedBlock
+  - GrassBlock
+  - SandBlock
+  - DirtBlock
+  - StoneBlock
   layers:
   - Default
   - TransparentFX

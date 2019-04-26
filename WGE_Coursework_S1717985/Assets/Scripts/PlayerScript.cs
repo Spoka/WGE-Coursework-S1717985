@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
 
 
@@ -8,12 +9,14 @@ public class PlayerScript : MonoBehaviour {
 
     public VoxelChunk voxelChunk;
     public DroppedBlockInstantiator instantiatePrefab;
-    public bool controlsEnabled;
-    public GameObject controlsDisabledText;
+    public InventoryManager inventory;
+    public InventoryItemScript iItemScript;
+    public GameObject inventoryPanel;
     public FirstPersonController fpsController;
+    public GameObject controlsDisabledText;
+    public bool controlsEnabled;
     public Vector3 blockTypeToTransfer;
     public int bType;
-    public GameObject inventoryPanel;
 
     // Use this for initialization
     void Start ()
@@ -40,10 +43,41 @@ public class PlayerScript : MonoBehaviour {
             Vector3 v;
             if (PickEmptyBlock(out v, 5))
             {
-                voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
+                if(voxelChunk.blockToPlace == 1 && inventory.itemAmounts[0] > 0)
+                {
+                    voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
+                    inventory.itemAmounts[0]--;
+                    inventory.inventoryList[0].itemAmount = inventory.itemAmounts[0];
+                    inventory.inventoryList[0].itemAmountText.text = inventory.itemAmounts[0].ToString();
+                }
+                if (voxelChunk.blockToPlace == 2 && inventory.itemAmounts[1] > 0)
+                {
+                    voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
+                    inventory.itemAmounts[1]--;
+                    inventory.inventoryList[1].itemAmount = inventory.itemAmounts[1];
+                    inventory.inventoryList[1].itemAmountText.text = inventory.itemAmounts[1].ToString();
+                }
+                if (voxelChunk.blockToPlace == 3 && inventory.itemAmounts[2] > 0)
+                {
+                    voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
+                    inventory.itemAmounts[2]--;
+                    inventory.inventoryList[2].itemAmount = inventory.itemAmounts[2];
+                    inventory.inventoryList[2].itemAmountText.text = inventory.itemAmounts[2].ToString();
+                }
+                if (voxelChunk.blockToPlace == 4 && inventory.itemAmounts[3] > 0)
+                {
+                    voxelChunk.SetBlock(v, voxelChunk.blockToPlace);
+                    inventory.itemAmounts[3]--;
+                    inventory.inventoryList[3].itemAmount = inventory.itemAmounts[3];
+                    inventory.inventoryList[3].itemAmountText.text = inventory.itemAmounts[3].ToString();
+                }
+                for (int i = 0; i < inventory.itemAmounts.Count; i++)
+                {
+                    iItemScript.itemAmountText.text = inventory.itemAmounts[i].ToString();
+                }
             }
         }
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.E))
         {
             foreach (Collider collider in Physics.OverlapSphere(transform.position, 2.5f))
             {
@@ -58,6 +92,30 @@ public class PlayerScript : MonoBehaviour {
             {
                 if (collider.tag == "DroppedBlock")
                 {
+                    if (collider.name == "GrassDrop(Clone)")
+                    {
+                        inventory.itemAmounts[0]++;
+                        inventory.inventoryList[0].itemAmount = inventory.itemAmounts[0];
+                        inventory.inventoryList[0].itemAmountText.text = inventory.itemAmounts[0].ToString();
+                    }
+                    if (collider.name == "DirtDrop(Clone)")
+                    {
+                        inventory.itemAmounts[1]++;
+                        inventory.inventoryList[1].itemAmount = inventory.itemAmounts[1];
+                        inventory.inventoryList[1].itemAmountText.text = inventory.itemAmounts[1].ToString();
+                    }
+                    if (collider.name == "SandDrop(Clone)")
+                    {
+                        inventory.itemAmounts[2]++;
+                        inventory.inventoryList[2].itemAmount = inventory.itemAmounts[2];
+                        inventory.inventoryList[2].itemAmountText.text = inventory.itemAmounts[2].ToString();
+                    }
+                    if (collider.name == "StoneDrop(Clone)")
+                    {
+                        inventory.itemAmounts[3]++;
+                        inventory.inventoryList[3].itemAmount = inventory.itemAmounts[3];
+                        inventory.inventoryList[3].itemAmountText.text = inventory.itemAmounts[3].ToString();
+                    }
                     Destroy(collider.gameObject);
                 }
             }
@@ -82,6 +140,7 @@ public class PlayerScript : MonoBehaviour {
         controlsDisabledText.SetActive(true);
         controlsEnabled = false;
         inventoryPanel.SetActive(true);
+        inventory.startItem.SetActive(false);
     }
 
     bool PickThisBlock(out Vector3 v, float dist)

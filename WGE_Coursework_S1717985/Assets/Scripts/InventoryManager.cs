@@ -11,13 +11,15 @@ public class InventoryManager : MonoBehaviour {
     public List<string> itemNames;
     public List<int> itemAmounts;
 
+    public InventoryItemScript iis;
+
     public GameObject startItem;
 
-    List<InventoryItemScript> inventoryList;
-
+    public List<InventoryItemScript> inventoryList;
+    
 	// Use this for initialization
 	void Start ()
-    {
+    { 
         inventoryList = new List<InventoryItemScript>();
         for (int i = 0; i < itemNames.Count; i++)
         {
@@ -25,7 +27,7 @@ public class InventoryManager : MonoBehaviour {
             inventoryItem.transform.SetParent(parentPanel);
             inventoryItem.SetActive(true);
 
-            InventoryItemScript iis = inventoryItem.GetComponent<InventoryItemScript>();
+            iis = inventoryItem.GetComponent<InventoryItemScript>();
             iis.itemSprite.sprite = itemSprites[i];
             iis.itemNameText.text = itemNames[i];
             iis.itemName = itemNames[i];
@@ -37,7 +39,7 @@ public class InventoryManager : MonoBehaviour {
         DisplayListInOrder();
 	}
 
-    void DisplayListInOrder()
+    public void DisplayListInOrder()
     {
         float yOffset = 55f;
         Vector3 startPosition = startItem.transform.position;

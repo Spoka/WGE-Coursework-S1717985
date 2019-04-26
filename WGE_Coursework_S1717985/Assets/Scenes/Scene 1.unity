@@ -151,8 +151,10 @@ MonoBehaviour:
   - Dirt Block
   - Sand Block
   - Stone Block
-  itemAmounts: 01000000010000000100000001000000
+  itemAmounts: 01000000020000002200000004000000
+  iis: {fileID: 0}
   startItem: {fileID: 420360309}
+  inventoryList: []
 --- !u!4 &70483215
 Transform:
   m_ObjectHideFlags: 0
@@ -390,10 +392,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1051,9 +1053,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Press Q to pull dropped blocks
+  m_Text: 'Press E to pull dropped blocks
 
-    Press E to open inventory
+    Press Q to open inventory
 
     Block type hotkeys:
 
@@ -1426,12 +1428,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   voxelChunk: {fileID: 1034742611}
   instantiatePrefab: {fileID: 197698715}
-  controlsEnabled: 0
-  controlsDisabledText: {fileID: 1643934131}
+  inventory: {fileID: 70483214}
+  iItemScript: {fileID: 420360313}
+  inventoryPanel: {fileID: 1838063352}
   fpsController: {fileID: 1358937236}
+  controlsDisabledText: {fileID: 1643934131}
+  controlsEnabled: 0
   blockTypeToTransfer: {x: 0, y: 0, z: 0}
   bType: 0
-  inventoryPanel: {fileID: 1838063352}
 --- !u!135 &1358937240
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1507,10 +1511,10 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 4
     m_AlignByGeometry: 0
