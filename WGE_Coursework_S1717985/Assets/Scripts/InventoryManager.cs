@@ -16,6 +16,7 @@ public class InventoryManager : MonoBehaviour {
     public GameObject startItem;
 
     public List<InventoryItemScript> inventoryList;
+    public List<InventoryItemScript> sortedInventoryList;
     
 	// Use this for initialization
 	void Start ()
@@ -39,7 +40,7 @@ public class InventoryManager : MonoBehaviour {
         DisplayListInOrder();
 	}
 
-    public void DisplayListInOrder()
+    void DisplayListInOrder()
     {
         float yOffset = 55f;
         Vector3 startPosition = startItem.transform.position;
@@ -49,8 +50,71 @@ public class InventoryManager : MonoBehaviour {
             startPosition.y -= yOffset;
         }
     }
-	
-    public void SelectionSortInventory()
+
+    public void ApplyMergeSort()
+    {
+        inventoryList = MergeSort(inventoryList);
+        DisplayListInOrder();
+    }
+
+    private static List<InventoryItemScript> MergeSort(List<InventoryItemScript> unsorted)
+    {
+        if (unsorted.Count <= 1)
+            return unsorted;
+
+        List<InventoryItemScript> left = new List<InventoryItemScript>();
+        List<InventoryItemScript> right = new List<InventoryItemScript>();
+
+        int middle = unsorted.Count / 2;
+        for (int i = 0; i < middle; i++)  //Dividing the unsorted list
+        {
+            left.Add(unsorted[i]);
+        }
+        for (int i = middle; i < unsorted.Count; i++)
+        {
+            right.Add(unsorted[i]);
+        }
+
+        left = MergeSort(left);
+        right = MergeSort(right);
+        return Merge(left, right);
+    }
+
+    private static List<InventoryItemScript> Merge(List<InventoryItemScript> left, List<InventoryItemScript> right)
+    {
+        List<InventoryItemScript> result = new List<InventoryItemScript>();
+
+        while (left.Count > 0 || right.Count > 0)
+        {
+            if (left.Count > 0 && right.Count > 0)
+            {
+                if (left[0].itemAmount <= right[0].itemAmount)  //Comparing First two elements to see which is smaller
+                {
+                    result.Add(left[0]);
+                    left.Remove(left[0]);      //Rest of the list minus the first element
+                }
+                else
+                {
+                    result.Add(right[0]);
+                    right.Remove(right[0]);
+                }
+            }
+            else if (left.Count > 0)
+            {
+                result.Add(left[0]);
+                left.Remove(left[0]);
+            }
+            else if (right.Count > 0)
+            {
+                result.Add(right[0]);
+
+                right.Remove(right[0]);
+            }
+        }
+        return result;
+    }
+
+    /*public void SelectionSortInventory()
     {
         for (int i = 0; i < inventoryList.Count - 1; i++)
         {
@@ -107,10 +171,10 @@ public class InventoryManager : MonoBehaviour {
     {
         inventoryList = QuickSort(inventoryList);
         DisplayListInOrder();
-    }
+    }*/
 
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update () {
 		
 	}
 }
