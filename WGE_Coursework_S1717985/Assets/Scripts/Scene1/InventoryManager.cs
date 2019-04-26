@@ -59,42 +59,42 @@ public class InventoryManager : MonoBehaviour {
 
     private static List<InventoryItemScript> MergeSort(List<InventoryItemScript> unsorted)
     {
-        if (unsorted.Count <= 1)
+        if (unsorted.Count <= 1)                                    //makes sure the list has more than one element
             return unsorted;
 
         List<InventoryItemScript> left = new List<InventoryItemScript>();
         List<InventoryItemScript> right = new List<InventoryItemScript>();
 
         int middle = unsorted.Count / 2;
-        for (int i = 0; i < middle; i++)  //Dividing the unsorted list
+        for (int i = 0; i < middle; i++) 
         {
             left.Add(unsorted[i]);
-        }
+        }                                                       //the first list is divided into two list of equal size
         for (int i = middle; i < unsorted.Count; i++)
         {
             right.Add(unsorted[i]);
         }
 
         left = MergeSort(left);
-        right = MergeSort(right);
+        right = MergeSort(right);                             //the process is reapeated for the halved lists
         return Merge(left, right);
     }
 
     private static List<InventoryItemScript> Merge(List<InventoryItemScript> left, List<InventoryItemScript> right)
     {
-        List<InventoryItemScript> result = new List<InventoryItemScript>();
+        List<InventoryItemScript> result = new List<InventoryItemScript>();  //creates a new list to store the arranged values 
 
-        while (left.Count > 0 || right.Count > 0)
+        while (left.Count > 0 || right.Count > 0)                   //while there are element to arrange
         {
-            if (left.Count > 0 && right.Count > 0)
+            if (left.Count > 0 && right.Count > 0)                   
             {
-                if (left[0].itemAmount <= right[0].itemAmount)  //Comparing First two elements to see which is smaller
+                if (left[0].itemAmount <= right[0].itemAmount) 
                 {
                     result.Add(left[0]);
-                    left.Remove(left[0]);      //Rest of the list minus the first element
+                    left.Remove(left[0]);                              
                 }
-                else
-                {
+                else                                                   //if there are elements in both lists, check the first elements
+                {                                                       //compare them and store the right one in the arranged list
                     result.Add(right[0]);
                     right.Remove(right[0]);
                 }
@@ -103,14 +103,14 @@ public class InventoryManager : MonoBehaviour {
             {
                 result.Add(left[0]);
                 left.Remove(left[0]);
-            }
-            else if (right.Count > 0)
+            }                                                           //if only one of the two lists still hold elements,
+            else if (right.Count > 0)                                    //simply store the first element in the arranged list
             {
                 result.Add(right[0]);
 
                 right.Remove(right[0]);
             }
         }
-        return result;
+        return result;                                               //repeat until all elements are arranged in the desired order.
     }
 }
